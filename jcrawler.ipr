@@ -185,6 +185,8 @@
         <w>dudunet</w>
         <w>fsoutput</w>
         <w>jcrawler</w>
+        <w>mozilla</w>
+        <w>ubuntu</w>
       </words>
     </dictionary>
   </component>
@@ -198,6 +200,7 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
   <component name="libraryTable">
     <library name="Maven: com.googlecode.juniversalchardet:juniversalchardet:1.0.3">

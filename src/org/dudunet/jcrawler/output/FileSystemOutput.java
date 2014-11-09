@@ -8,13 +8,14 @@ import org.dudunet.jcrawler.util.FileUtils;
 import org.dudunet.jcrawler.util.LogUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 
 /**
  * @author dudu
  */
-public class FileSystemOutput {
+public class FileSystemOutput extends AbstractOutput {
 
     public String root;
 
@@ -22,40 +23,20 @@ public class FileSystemOutput {
         this.root = root;
     }
 
-    public void output(Page page) {
+    @Override
+    protected void doOutput(Page page, URL url, String path) throws OutputException {
         try {
-            URL _URL = new URL(page.getUrl());
-            String query = "";
-            if (_URL.getQuery() != null) {
-                query = "_" + _URL.getQuery();
-            }
-            String path = _URL.getPath();
-            if (path.length() == 0) {
-                path = "index.html";
-            } else {
-                if (path.charAt(path.length() - 1) == '/') {
-                    path = path + "index.html";
-                } else {
+            File domain_path = new File(root, url.getHost());
+            File f = new File(domain_path, path);
 
-                    for (int i = path.length() - 1; i >= 0; i--) {
-                        if (path.charAt(i) == '/') {
-                            if (!path.substring(i + 1).contains(".")) {
-                                path = path + ".html";
-                            }
-                        }
-                    }
-                }
-            }
-            path += query;
-            File domain_path = new File(root, _URL.getHost());
-            File f = new File(domain_path, path);           
             FileUtils.writeFileWithParent(f, page.getContent());
+
             LogUtils.getLogger().info("output "+f.getAbsolutePath());
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } catch (IOException e) {
+            throw new OutputException(e.getMessage());
         }
     }
 
-   
 
 }
