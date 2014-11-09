@@ -17,21 +17,17 @@ public class CommonConnectionConfig implements ConnectionConfig{
     }
 
     @Override
-            public void config(HttpURLConnection con) {   
-                if(userAgent!=null){
-                    con.setRequestProperty("User-Agent", userAgent);
-                }
-                if (cookie != null) {
-                    con.setRequestProperty("Cookie", cookie);
-                }
-            }
-    
+    public void config(HttpURLConnection con) {
+        if (userAgent != null) {
+            con.setRequestProperty("User-Agent", userAgent);
+        }
+        if (cookie != null) {
+            con.setRequestProperty("Cookie", cookie);
+        }
+    }
 
-    
     private String userAgent=null;
     private String cookie=null;
-
-   
 
     public String getUserAgent() {
         return userAgent;
@@ -48,8 +44,4 @@ public class CommonConnectionConfig implements ConnectionConfig{
     public void setCookie(String cookie) {
         this.cookie = cookie;
     }
-    
-    
-    
-    
 }

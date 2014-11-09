@@ -280,7 +280,7 @@ public class Fetcher {
 
                         page.setResponse(response);
 
-                        LogUtils.getLogger().info("fetch " + url);
+//                        LogUtils.getLogger().info("fetch " + url);
 
                         String contentType = response.getContentType();
 

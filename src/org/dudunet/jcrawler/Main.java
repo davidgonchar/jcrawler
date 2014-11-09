@@ -26,6 +26,7 @@ public class Main {
         crawler.setCrawlPath(crawl_path);
         crawler.setRoot(root);
         crawler.setResume(false);
+        crawler.setThreads(100);
 
         crawler.start(5);
     }

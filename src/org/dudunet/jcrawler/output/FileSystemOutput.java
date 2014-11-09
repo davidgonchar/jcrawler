@@ -31,7 +31,7 @@ public class FileSystemOutput extends AbstractOutput {
 
             FileUtils.writeFileWithParent(f, page.getContent());
 
-            LogUtils.getLogger().info("output "+f.getAbsolutePath());
+//            LogUtils.getLogger().info("output "+f.getAbsolutePath());
 
         } catch (IOException e) {
             throw new OutputException(e.getMessage());

@@ -159,8 +159,9 @@ public class FSDbUpdater implements DbUpdater {
         } catch (IOException ex) {
             LogUtils.getLogger().info("Exception", ex);
         }
-*/
-        LogUtils.getLogger().info("merge " + getSegmentPath());
+        */
+
+//        LogUtils.getLogger().info("merge " + getSegmentPath());
         mergeCount = 0;
         File file_fetch = new File(getSegmentPath(), "fetch/info.avro");
         if (!file_fetch.exists()) {
