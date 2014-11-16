@@ -5,27 +5,39 @@ package org.dudunet.jcrawler.crawler;
 
 
 import org.dudunet.jcrawler.fetcher.Fetcher;
+import org.dudunet.jcrawler.fetcher.FetcherThreadPool;
+import org.dudunet.jcrawler.model.Page;
 import org.dudunet.jcrawler.net.HttpRequest;
 import org.dudunet.jcrawler.net.Request;
+import org.dudunet.jcrawler.output.FileSystemOutput;
 import org.dudunet.jcrawler.parser.HtmlParser;
 import org.dudunet.jcrawler.parser.Parser;
 import org.dudunet.jcrawler.util.CommonConnectionConfig;
 import org.dudunet.jcrawler.util.Config;
 import org.dudunet.jcrawler.util.ConnectionConfig;
+import org.dudunet.jcrawler.util.LogUtils;
 
 import java.net.Proxy;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author dudu
  */
 public abstract class CommonCrawler extends Crawler {
-    private String cookie = null;
-    private String useragent = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:26.0) Gecko/20100101 Firefox/26.0";
+
+    private static volatile AtomicLong pagesVisited = new AtomicLong(0);
+    private static volatile AtomicLong pagesFailed = new AtomicLong(0);
+
+    protected String crawlPath = "crawl";
+    protected String root = "data";
+
+    protected String cookie = null;
+    protected String useragent = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:26.0) Gecko/20100101 Firefox/26.0";
+    protected ConnectionConfig conconfig = null;
 
     private boolean isContentStored = true;
     private Proxy proxy = null;
-    private ConnectionConfig conconfig = null;
 
     /**
      * @param url
@@ -64,11 +76,13 @@ public abstract class CommonCrawler extends Crawler {
 
     @Override
     public Fetcher createFetcher() {
-        Fetcher fetcher = new Fetcher();
+        conconfig = new CommonConnectionConfig(useragent, cookie);
+
+        FetcherThreadPool fetcher = new FetcherThreadPool();
         fetcher.setNeedUpdateDb(true);
         fetcher.setIsContentStored(isContentStored);
-        conconfig = new CommonConnectionConfig(useragent, cookie);
         fetcher.setThreads(getThreads());
+
         return fetcher;
     }
 
@@ -143,4 +157,53 @@ public abstract class CommonCrawler extends Crawler {
     public void setCookie(String cookie) {
         this.cookie = cookie;
     }
+
+    /**
+     * @return
+     */
+    public String getCrawlPath() {
+        return crawlPath;
+    }
+
+    /**
+     * @param crawlPath
+     */
+    public void setCrawlPath(String crawlPath) {
+        this.crawlPath = crawlPath;
+    }
+
+
+
+    /**
+     * @return
+     */
+    public String getRoot() {
+        return root;
+    }
+
+    /**
+     * @param root
+     */
+    public void setRoot(String root) {
+        this.root = root;
+    }
+
+    @Override
+    public void visit(Page page) {
+        FileSystemOutput fsoutput = new FileSystemOutput(root);
+//        LogUtils.getLogger().info("visit " + page.getUrl());
+        fsoutput.output(page);
+        long visited = pagesVisited.incrementAndGet();
+        if (visited % 100 == 0) {
+            LogUtils.getLogger().info("number of visited pages: " + visited);
+        }
+    }
+
+    @Override
+    public void failed(Page page) {
+        LogUtils.getLogger().info("failed " + page.getUrl());
+        long failed = pagesFailed.incrementAndGet();
+        LogUtils.getLogger().info("number of failed pages: " + failed);
+    }
+
 }

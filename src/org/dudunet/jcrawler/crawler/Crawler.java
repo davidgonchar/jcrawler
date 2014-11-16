@@ -4,6 +4,7 @@ package org.dudunet.jcrawler.crawler;
 
 
 import org.dudunet.jcrawler.fetcher.Fetcher;
+import org.dudunet.jcrawler.fetcher.FetcherThreadPool;
 import org.dudunet.jcrawler.generator.DbUpdater;
 import org.dudunet.jcrawler.generator.DbUpdaterFactory;
 import org.dudunet.jcrawler.generator.Generator;
@@ -144,10 +145,10 @@ public abstract class Crawler implements RequestFactory, ParserFactory, DbUpdate
             public void handleMessage(Message msg) {
                 Page page = (Page) msg.obj;
                 switch (msg.what) {
-                    case Fetcher.FETCH_SUCCESS:
+                    case FetcherThreadPool.FETCH_SUCCESS:
                         visit(page);
                         break;
-                    case Fetcher.FETCH_FAILED:
+                    case FetcherThreadPool.FETCH_FAILED:
                         failed(page);
                         break;
                     default:

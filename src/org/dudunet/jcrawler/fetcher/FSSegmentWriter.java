@@ -54,7 +54,7 @@ public class FSSegmentWriter implements SegmentWriter{
      * @param fetch
      * @throws java.io.IOException
      */
-    public synchronized void wrtieFetch(CrawlingData fetch) throws IOException {
+    public synchronized void writeFetch(CrawlingData fetch) throws IOException {
         fetchWriter.write(fetch);
         count_fetch = (count_fetch++) % Config.segmentwriter_buffer_size;
         if (count_fetch == 0) {
@@ -66,7 +66,7 @@ public class FSSegmentWriter implements SegmentWriter{
      * @param content
      * @throws java.io.IOException
      */
-    public synchronized void wrtieContent(Content content) throws IOException {
+    public synchronized void writeContent(Content content) throws IOException {
         contentWriter.write(content);
         count_content = (count_content++) % Config.segmentwriter_buffer_size;
         if (count_content == 0) {
@@ -78,7 +78,7 @@ public class FSSegmentWriter implements SegmentWriter{
      * @param parseresult
      * @throws java.io.IOException
      */
-    public synchronized void wrtieParse(ParseResult parseresult) throws IOException {
+    public synchronized void writeParse(ParseResult parseresult) throws IOException {
         parseDataWriter.write(parseresult.getParsedata());
         parseTextWriter.write(parseresult.getParsetext());
         count_parse = (count_parse++) % Config.segmentwriter_buffer_size;

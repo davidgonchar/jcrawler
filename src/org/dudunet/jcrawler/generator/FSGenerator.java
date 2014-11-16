@@ -19,9 +19,8 @@ public class FSGenerator implements Generator {
     private boolean isStarted = false;
 
     /**
-     * 构造一个广度遍历爬取任务生成器，从制定路径的文件夹中获取任务
      *
-     * @param crawlPath 存储爬取信息的文件夹
+     * @param crawlPath
      */
     public FSGenerator(String crawlPath) {
         this.crawlPath = crawlPath;

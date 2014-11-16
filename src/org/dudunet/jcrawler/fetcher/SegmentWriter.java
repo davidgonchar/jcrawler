@@ -16,19 +16,19 @@ public interface SegmentWriter {
      * @param fetch
      * @throws Exception
      */
-    public  void wrtieFetch(CrawlingData fetch) throws Exception;
+    public  void writeFetch(CrawlingData fetch) throws Exception;
 
     /**
      * @param content
      * @throws Exception
      */
-    public void wrtieContent(Content content) throws Exception;
+    public void writeContent(Content content) throws Exception;
 
     /**
      * @param parseresult
      * @throws Exception
      */
-    public void wrtieParse(ParseResult parseresult) throws Exception;
+    public void writeParse(ParseResult parseresult) throws Exception;
 
     /**
      * @throws Exception

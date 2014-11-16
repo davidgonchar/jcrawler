@@ -63,7 +63,10 @@ public class LinkUtils {
     
     public static ArrayList<Link> getLinks(Page page) {
         try {
-            return getLinks(page.getDoc());
+            Document doc = page.getDoc();
+            if (doc != null)
+                return getLinks(doc);
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
